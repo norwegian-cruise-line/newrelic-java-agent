@@ -117,6 +117,10 @@ common: &default_settings
         # A comma separated list of attribute keys whose values should not be sent to New Relic.
         #exclude:
 
+      # only forward logs with level equal or higher than the one specified in log_level.
+      # Default is INFO.
+      #log_level: INFO
+
     # The agent will generate metrics to indicate the number of
     # application log events occurring at each distinct log level.
     metrics:

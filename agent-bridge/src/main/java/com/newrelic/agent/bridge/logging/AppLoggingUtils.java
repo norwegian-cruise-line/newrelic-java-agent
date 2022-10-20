@@ -47,6 +47,8 @@ public class AppLoggingUtils {
     private static final boolean APP_LOGGING_LOCAL_DECORATING_DEFAULT_ENABLED = false;
     private static final boolean APP_LOGGING_FORWARDING_INCLUDE_CONTEXT_DATA_DEFAULT_ENABLED = false;
 
+    private static final String APP_LOGGING_FORWARDING_DEFAULT_LOG_LEVEL = "INFO";
+
     /**
      * Gets a String representing the agent linking metadata in blob format:
      * NR-LINKING|entity.guid|hostname|trace.id|span.id|entity.name|
@@ -138,5 +140,15 @@ public class AppLoggingUtils {
     public static boolean isAppLoggingContextDataEnabled() {
         return NewRelic.getAgent().getConfig().getValue("application_logging.forwarding.context_data.enabled",
                 APP_LOGGING_FORWARDING_INCLUDE_CONTEXT_DATA_DEFAULT_ENABLED);
+    }
+
+    /**
+     * Get the application_logging forwarding configured log level.
+     *
+     * @return the log level
+     */
+    public static String getApplicationLoggingForwardingLogLevel() {
+        return NewRelic.getAgent().getConfig().getValue("application_logging.forwarding.log_level",
+                APP_LOGGING_FORWARDING_DEFAULT_LOG_LEVEL);
     }
 }
