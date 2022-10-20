@@ -22,6 +22,7 @@ import static com.newrelic.agent.bridge.logging.AppLoggingUtils.isAppLoggingCont
 import static com.newrelic.agent.bridge.logging.AppLoggingUtils.isApplicationLoggingEnabled;
 import static com.newrelic.agent.bridge.logging.AppLoggingUtils.isApplicationLoggingForwardingEnabled;
 import static com.newrelic.agent.bridge.logging.AppLoggingUtils.isApplicationLoggingLocalDecoratingEnabled;
+import static com.newrelic.agent.bridge.logging.AppLoggingUtils.getApplicationLoggingForwardingLogLevel;
 import static com.nr.agent.instrumentation.logbackclassic12.AgentUtil.recordNewRelicLogEvent;
 
 @Weave(originalName = "ch.qos.logback.classic.spi.LoggingEvent", type = MatchType.ExactClass)
@@ -73,7 +74,7 @@ public class LoggingEvent_Instrumentation {
         String threadName = thread.getName();
         long threadId = thread.getId();
 
-        if (applicationLoggingEnabled && isApplicationLoggingForwardingEnabled()) {
+        if (applicationLoggingEnabled && isApplicationLoggingForwardingEnabled() && isForwardingLevel(level)) {
             Map<String, String> mdc;
             if (isAppLoggingContextDataEnabled()) {
                 mdc = getMdc();
@@ -97,4 +98,8 @@ public class LoggingEvent_Instrumentation {
         return Weaver.callOriginal();
     }
 
+    private boolean isForwardingLevel(Level level) {
+        Level logLevel = Level.valueOf(getApplicationLoggingForwardingLogLevel());
+        return level.isGreaterOrEqual(logLevel);
+    }
 }
