@@ -157,7 +157,7 @@ public class InstrumentationContext implements TraceDetailsList {
   }
 
   public Set<String> getScalaFinalFields() {
-      return scalaFinalFields == null ? Collections.emptySet() : new HashSet<>(scalaFinalFields);
+      return Collections.emptySet(); // scalaFinalFields == null ? Collections.emptySet() : new HashSet<>(scalaFinalFields);
   }
 
   /**
